@@ -3,9 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
+
     <modules>
         <module>mall-mbg</module>
+        <module>mall-common</module>
     </modules>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -23,34 +26,30 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <skipTests>true</skipTests>
-        <docker.host>http://192.168.3.101:2375</docker.host>
+        <docker.host>http://192.168.6.132:2375</docker.host>
         <docker.maven.plugin.version>1.1.0</docker.maven.plugin.version>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
         <pagehelper-starter.version>1.2.10</pagehelper-starter.version>
         <pagehelper.version>5.1.8</pagehelper.version>
         <druid.version>1.1.10</druid.version>
         <hutool.version>4.5.7</hutool.version>
-        <swagger2.version>2.9.2</swagger2.version>
-        <swagger-models.version>1.6.0</swagger-models.version>
-        <swagger-annotations.version>1.6.0</swagger-annotations.version>
+        <swagger2.version>2.7.0</swagger2.version>
         <mybatis-generator.version>1.3.7</mybatis-generator.version>
         <mybatis.version>3.4.6</mybatis.version>
-        <mysql-connector.version>8.0.16</mysql-connector.version>
+        <mysql-connector.version>8.0.15</mysql-connector.version>
         <spring-data-commons.version>2.1.5.RELEASE</spring-data-commons.version>
         <jjwt.version>0.9.0</jjwt.version>
         <aliyun-oss.version>2.5.0</aliyun-oss.version>
-        <logstash-logback.version>4.8</logstash-logback.version>
+        <logstash-logback.version>5.3</logstash-logback.version>
+        <admin-starter-server.version>2.1.5</admin-starter-server.version>
         <minio.version>3.0.10</minio.version>
-        <guava.version>20.0</guava.version>
-        <mall-common.version>1.0-SNAPSHOT</mall-common.version>
-        <mall-mbg.version>1.0-SNAPSHOT</mall-mbg.version>
-        <mall-security.version>1.0-SNAPSHOT</mall-security.version>
+        <mall-common.version>0.0.1-SNAPSHOT</mall-common.version>
+        <mall-mbg.version>0.0.1-SNAPSHOT</mall-mbg.version>
+        <mall-security.version>0.0.1-SNAPSHOT</mall-security.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -64,18 +63,36 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!--Spring Cloud 相关依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--mall通用模块-->
+            <dependency>
+                <groupId>cn.lgq.www</groupId>
+                <artifactId>mall-common</artifactId>
+                <version>${mall-common.version}</version>
+            </dependency>
+            <!--mall中MBG生成模块-->
+<!--            <dependency>-->
+<!--                <groupId>com.macro.mall</groupId>-->
+<!--                <artifactId>mall-mbg</artifactId>-->
+<!--                <version>${mall-mbg.version}</version>-->
+<!--            </dependency>-->
+            <!--mall安全模块-->
+<!--            <dependency>-->
+<!--                <groupId>com.macro.mall</groupId>-->
+<!--                <artifactId>mall-security</artifactId>-->
+<!--                <version>${mall-security.version}</version>-->
+<!--            </dependency>-->
             <!--MyBatis分页插件starter-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -110,17 +127,6 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger2.version}</version>
-            </dependency>
-            <!--解决Swagger 2.9.2版本NumberFormatException-->
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger-models.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
             </dependency>
             <!-- MyBatis 生成器 -->
             <dependency>
@@ -164,17 +170,17 @@
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback.version}</version>
             </dependency>
+            <!--集成SpringBoot Admin监控-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${admin-starter-server.version}</version>
+            </dependency>
             <!--MinIO JAVA SDK-->
             <dependency>
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-            <!--统一Guava版本防止冲突-->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
